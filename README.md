@@ -1,28 +1,37 @@
 # AmbiBack UI
 
-Moderne Web-Oberfläche für AmbiBack-Geräte, gebaut mit React und Vite. Sie läuft als eigenständige Web-App und spricht über das Netzwerk mit der API der [AmbiBack-Firmware](https://github.com/ambiback/ambiback-firmware).
+**English** · [Deutsch](README.de.md)
 
-Die AmbiBack-Geräte werden seit rund fünf Jahren nicht mehr verkauft. Dieses Repository stellt den Quellcode für den Eigenbau und die Weiterentwicklung bereit. Mehr zum Projekt steht auf [ambiback.de](https://www.ambiback.de/).
+Web interface for AmbiBack devices, built with React and Vite. It runs as a standalone web app and talks to the API of the [AmbiBack firmware](https://github.com/ambiback/ambiback-firmware) over the network.
 
-## Nutzung
+It is part of the [AmbiBack project](https://github.com/ambiback). [AmbiBack Manager](https://github.com/ambiback/ambiback-manager) embeds this interface as its full-control view.
 
-Die veröffentlichte Version liegt unter <https://ambiback.github.io/ambiback-ui/>. Ein Gerät lässt sich in der App auswählen oder direkt über die Adresse vorgeben, zum Beispiel mit `?device=192.168.0.50`.
+## Status
 
-## Entwicklung
+- The production build succeeds and is published on GitHub Pages.
+- **The migrated state has not been tested against a real device.**
+- `npm run lint` still reported errors at the time of migration.
+- AmbiBack devices have not been on sale for around five years. This repository is for DIY use and further development, with no product support. More at [ambiback.de](https://www.ambiback.de/).
 
-Voraussetzung ist Node.js 20 oder neuer.
+## Usage
+
+The published version is at <https://ambiback.github.io/ambiback-ui/>. Select a device in the app or pass its address directly, for example with `?device=192.168.0.50`.
+
+## Development
+
+Requires Node.js 20 or newer.
 
 ```sh
 npm ci
 npm run dev
 ```
 
-Eine Produktionsversion entsteht mit `npm run build` im Ordner `dist/`. Hinweise zum lokalen Proxy für den Zugriff auf ein echtes Gerät stehen in [dev/README.md](dev/README.md).
+`npm run build` creates a production version in `dist/`. See [dev/README.md](dev/README.md) for the local proxy used to reach a real device.
 
-Bei jedem Push auf `main` baut GitHub Actions die App und veröffentlicht sie auf GitHub Pages.
+Every push to `main` builds the app with GitHub Actions and publishes it to GitHub Pages.
 
-## Lizenz
+## License
 
 Copyright (C) 2026 Andre Lorbach
 
-Dieses Programm ist freie Software und steht unter der [GNU General Public License Version 3](LICENSE). Es wird ohne jede Gewährleistung bereitgestellt. Die über npm eingebundenen Abhängigkeiten behalten ihre eigenen Lizenzen.
+This program is free software under the [GNU General Public License version 3](LICENSE). It comes with no warranty. Dependencies installed through npm keep their own licenses.
