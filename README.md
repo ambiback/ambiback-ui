@@ -17,6 +17,10 @@ It is part of the [AmbiBack project](https://github.com/ambiback). [AmbiBack Man
 
 The published version is at <https://ambiback.github.io/ambiback-ui/>. Select a device in the app or pass its address directly, for example with `?device=192.168.0.50`. Paired devices need their device key for protected actions. It is shown in AmbiBack Manager and is entered on the System page.
 
+## Hardware
+
+The parts for a DIY build are on the [AmbiBack parts page](https://www.ambiback.de/en/diy/parts/).
+
 ## Development
 
 Requires Node.js 20 or newer.
