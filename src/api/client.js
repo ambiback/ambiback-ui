@@ -1,6 +1,61 @@
 const STORAGE_KEY = 'ambiback.deviceBaseUrl'
 const RECENT_DEVICES_KEY = 'ambiback.recentDevices'
 const RECENT_MAX = 10
+const CLAIM_KEYS_KEY = 'ambiback.claimKeys'
+const PROTECTED_PARAMS = new Set([
+  'setdeviceappass',
+  'setdeviceapssid',
+  'setwifiapenable',
+  'setprovisioningenable',
+  'setprovisioningtimeout',
+  'setrelaytarget',
+  'setrelaytodirect',
+  'setrelaywifidirect',
+  'setrelaymode',
+  'setdebugsyslogserver',
+  'setdebugsyslogport',
+  'setdebugsyslog',
+  'setdebugserial',
+  'setdebugultra',
+  'setwififail',
+  'sethuebridgeip',
+  'sethuebridgeuser',
+  'sethuebridgeclientkey',
+])
+
+function readClaimKeys() {
+  try {
+    const parsed = JSON.parse(localStorage.getItem(CLAIM_KEYS_KEY) || '{}')
+    return parsed && typeof parsed === 'object' ? parsed : {}
+  } catch {
+    return {}
+  }
+}
+
+/** Device key for the selected device, needed for protected actions on claimed devices. */
+export function getClaimKey() {
+  return readClaimKeys()[resolveBaseUrl()] || ''
+}
+
+export function setClaimKey(value) {
+  const base = resolveBaseUrl()
+  if (!base) return
+  const keys = readClaimKeys()
+  const trimmed = value.trim()
+  if (trimmed) keys[base] = trimmed
+  else delete keys[base]
+  try {
+    localStorage.setItem(CLAIM_KEYS_KEY, JSON.stringify(keys))
+  } catch {
+    // ignore
+  }
+}
+
+function withClaimKey(path) {
+  const key = getClaimKey()
+  if (!key) return path
+  return `${path}${path.includes('?') ? '&' : '?'}claimkey=${encodeURIComponent(key)}`
+}
 
 export function getStoredBaseUrl() {
   return localStorage.getItem(STORAGE_KEY) || ''
@@ -89,8 +144,10 @@ export const api = {
   scanWifi: () => requestJson('/getscannetworksasjson'),
   setColorMode: (mode) => requestText(`/setcolormode?mode=${encodeURIComponent(mode)}`),
   setColor: (hex) => requestText(`/setcolor?color=${encodeURIComponent(hex)}`),
-  setParam: (param, value) =>
-    requestText(`/setparam?param=${encodeURIComponent(param)}&value=${encodeURIComponent(value)}`),
+  setParam: (param, value) => {
+    const path = `/setparam?param=${encodeURIComponent(param)}&value=${encodeURIComponent(value)}`
+    return requestText(PROTECTED_PARAMS.has(param) ? withClaimKey(path) : path)
+  },
   setPreset: (param, value) =>
     requestText(`/setpreset?param=${encodeURIComponent(param)}&value=${encodeURIComponent(value)}`),
   refreshHueDevices: () => requestText('/refresh_hue_devices'),
@@ -109,15 +166,15 @@ export const api = {
     requestText(
       `/setcamerapoint?point=${encodeURIComponent(point)}&left=${encodeURIComponent(left)}&top=${encodeURIComponent(top)}`,
     ),
-  reboot: () => requestText('/reboot?forreal=1'),
-  startWps: () => requestText('/startwps?forreal=1'),
+  reboot: () => requestText(withClaimKey('/reboot?forreal=1')),
+  startWps: () => requestText(withClaimKey('/startwps?forreal=1')),
   updateUrl: () => buildUrl('/update'),
 
   /** Fetch firmware index via device proxy (like old embedded UI). Device fetches from firmware server. */
   getFirmwareIndex: () => requestJson('/getfirmwareindex'),
 
   /** Trigger automatic OTA update. version format: "0.4.226" */
-  autoUpdate: (version) => requestJson(`/autoupdate?version=${encodeURIComponent(version)}`),
+  autoUpdate: (version) => requestJson(withClaimKey(`/autoupdate?version=${encodeURIComponent(version)}`)),
 
   /** Poll update status during OTA */
   updateStatus: () => requestJson('/updatestatus'),

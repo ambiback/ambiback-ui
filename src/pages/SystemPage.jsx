@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
-import { api } from '../api/client.js'
+import { api, getClaimKey, setClaimKey } from '../api/client.js'
 import StatusCard from '../components/StatusCard.jsx'
 import ParamsViewer from '../components/ParamsViewer.jsx'
 import ParamSetter from '../components/ParamSetter.jsx'
@@ -15,6 +15,7 @@ const SYSTEM_SECTION_STORAGE_KEY = 'ambiback.system.sectionOpen'
 
 export default function SystemPage() {
   const [message, setMessage] = useState('')
+  const [claimKey, setClaimKeyValue] = useState(() => getClaimKey())
   const [settingsMessage, setSettingsMessage] = useState('')
   const [resetting, setResetting] = useState(false)
   const [summaryStatus, setSummaryStatus] = useState(null)
@@ -280,6 +281,18 @@ export default function SystemPage() {
               OTA Update
             </a>
           </div>
+          <label>
+            Device key (only for claimed devices)
+            <input
+              type="password"
+              autoComplete="off"
+              value={claimKey}
+              onChange={(event) => {
+                setClaimKeyValue(event.target.value)
+                setClaimKey(event.target.value)
+              }}
+            />
+          </label>
           {message && <div className="muted">{message}</div>}
         </section>
         <PersistedCollapsibleCard

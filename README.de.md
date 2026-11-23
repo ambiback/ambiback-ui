@@ -15,7 +15,7 @@ Sie gehört zum [AmbiBack-Projekt](https://github.com/ambiback). Der [AmbiBack M
 
 ## Nutzung
 
-Die veröffentlichte Version liegt unter <https://ambiback.github.io/ambiback-ui/>. Ein Gerät lässt sich in der App auswählen oder direkt über die Adresse vorgeben, zum Beispiel mit `?device=192.168.0.50`.
+Die veröffentlichte Version liegt unter <https://ambiback.github.io/ambiback-ui/>. Ein Gerät lässt sich in der App auswählen oder direkt über die Adresse vorgeben, zum Beispiel mit `?device=192.168.0.50`. Gekoppelte Geräte brauchen für geschützte Aktionen ihren Geräteschlüssel. Er wird im AmbiBack Manager angezeigt und auf der Seite System eingetragen.
 
 ## Entwicklung
 
