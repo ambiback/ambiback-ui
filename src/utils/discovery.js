@@ -36,9 +36,11 @@ export async function scanSubnet(subnet, signal) {
           .finally(() => clearTimeout(timeoutId))
       )
     }
-    const batch = await Promise.allSettled(promises)
-    batch.forEach((r) => {
-      if (r.status === 'fulfilled' && r.value) results.push(r.value)
+    // Every promise catches its own errors, so Promise.all never rejects here.
+    // (Promise.allSettled needs Chrome 76; older Android WebViews lack it.)
+    const batch = await Promise.all(promises)
+    batch.forEach((value) => {
+      if (value) results.push(value)
     })
   }
 

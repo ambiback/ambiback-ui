@@ -19,11 +19,18 @@
   align-items: center;
   justify-content: space-between;
   padding: 14px 16px;
-  padding-left: max(16px, env(safe-area-inset-left));
-  padding-right: max(16px, env(safe-area-inset-right));
   background: #151821;
   border-bottom: 1px solid #232836;
   min-height: 68px;
+}
+
+/* max() with env() is only valid at computed-value time, so a WebView without
+   CSS max() (before Chrome 79) would drop the padding to 0. */
+@supports (padding: max(0px, 1px)) {
+  .mobile-header {
+    padding-left: max(16px, env(safe-area-inset-left));
+    padding-right: max(16px, env(safe-area-inset-right));
+  }
 }
 
 .mobile-menu-button {
@@ -308,7 +315,10 @@
 
 .params-loader-overlay {
   position: absolute;
-  inset: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -412,7 +422,8 @@
 }
 
 .firmware-page .firmware-update-grid {
-  width: min(100%, 520px);
+  width: 100%;
+  max-width: 520px;
   grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr);
   align-items: start;
 }
@@ -1222,7 +1233,10 @@ button:disabled {
 
 .camera-calibration-overlay {
   position: absolute;
-  inset: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
   width: 100%;
   height: 100%;
   pointer-events: none;
@@ -1239,7 +1253,10 @@ button:disabled {
 
 .camera-calibration-loading {
   position: absolute;
-  inset: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
   background: rgba(0, 0, 0, 0.4);
   z-index: 1;
 }
@@ -1372,7 +1389,8 @@ button:disabled {
 
 .tv-frame {
   position: relative;
-  width: min(520px, 100%);
+  width: 100%;
+  max-width: 520px;
   aspect-ratio: 16 / 9;
   border-radius: 12px;
   background: #0f1118;
@@ -1397,7 +1415,10 @@ button:disabled {
 
 .tv-screen {
   position: absolute;
-  inset: 22px;
+  top: 22px;
+  right: 22px;
+  bottom: 22px;
+  left: 22px;
   border-radius: 8px;
   background: #0c0f18;
   border: 1px solid #1f2533;
@@ -1405,7 +1426,10 @@ button:disabled {
 
 .tv-arrow {
   position: absolute;
-  inset: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
 }
 
 .tv-arrow path {
@@ -1480,7 +1504,10 @@ button:disabled {
 
 .tv-side-fill {
   position: absolute;
-  inset: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
   transform-origin: center;
 }
 
@@ -1705,7 +1732,8 @@ button:disabled {
 
 .hue-tv-frame {
   position: relative;
-  width: min(360px, 100%);
+  width: 100%;
+  max-width: 360px;
   aspect-ratio: 16 / 9;
   border-radius: 12px;
   background: #0f1118;
@@ -1716,7 +1744,10 @@ button:disabled {
 
 .hue-tv-screen {
   position: absolute;
-  inset: 20px;
+  top: 20px;
+  right: 20px;
+  bottom: 20px;
+  left: 20px;
   border-radius: 8px;
   background: #0c0f18;
   border: 1px solid #1f2533;
@@ -1813,13 +1844,22 @@ button:disabled {
 
   .sidebar {
     position: fixed;
-    inset: 0 0 0 auto;
-    width: min(280px, 80vw);
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: auto;
+    width: 80vw;
+    max-width: 280px;
     transform: translateX(100%);
     transition: transform 0.2s ease;
     z-index: 6;
     border-left: 1px solid #232836;
-    padding-right: env(safe-area-inset-right);
+  }
+
+  @supports (padding: max(0px, 1px)) {
+    .sidebar {
+      padding-right: max(20px, env(safe-area-inset-right));
+    }
   }
 
   .sidebar-open {
@@ -1829,7 +1869,10 @@ button:disabled {
   .sidebar-backdrop.visible {
     display: block;
     position: fixed;
-    inset: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
     background: rgba(0, 0, 0, 0.5);
     z-index: 5;
     animation: backdrop-fade 0.2s ease;
@@ -1847,7 +1890,12 @@ button:disabled {
 
   .content {
     padding: 16px;
-    padding-bottom: max(16px, env(safe-area-inset-bottom));
+  }
+
+  @supports (padding: max(0px, 1px)) {
+    .content {
+      padding-bottom: max(16px, env(safe-area-inset-bottom));
+    }
   }
 
   .mobile-device-bar {
@@ -2014,6 +2062,7 @@ button:disabled {
 
   .tv-frame {
     width: 100%;
+    max-width: none;
   }
 
   .brightness-grid {
@@ -2056,7 +2105,8 @@ button:disabled {
   }
 
   .preset-tile-tooltip {
-    width: min(280px, calc(100vw - 48px));
+    width: calc(100vw - 48px);
+    max-width: 280px;
   }
 }
 
@@ -2104,5 +2154,40 @@ button:disabled {
   .mode-panel-sticky.compact .mode-tile {
     min-height: 42px;
     font-size: 12px;
+  }
+}
+
+/* Android WebView before Chrome 88 has no aspect-ratio: keep the frames' height.
+   The same old WebViews (before Chrome 84) also ignore gap in flex layouts, so
+   space the most visible flex rows with margins instead. */
+@supports not (aspect-ratio: 1 / 1) {
+  .mobile-device-bar > * + * {
+    margin-left: 12px;
+  }
+
+  .mobile-device-bar-main > * + * {
+    margin-left: 10px;
+  }
+
+  .mobile-device-bar-meta > * + * {
+    margin-left: 6px;
+  }
+
+  .tv-frame::before,
+  .hue-tv-frame::before {
+    content: '';
+    display: block;
+    padding-top: 56.25%;
+  }
+
+  .camera-calibration-view {
+    max-height: none;
+    padding-top: 75%;
+  }
+
+  .camera-calibration-view img {
+    position: absolute;
+    top: 0;
+    left: 0;
   }
 }

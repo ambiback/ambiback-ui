@@ -5,6 +5,12 @@ import { VitePWA } from 'vite-plugin-pwa'
 // https://vite.dev/config/
 export default defineConfig({
   base: './',
+  build: {
+    // The AmbiBack Manager app embeds this UI in an Android WebView, and
+    // Android 8-10 devices may still run WebView 64-74. Lower modern syntax
+    // such as ?. and ?? so those WebViews can parse the bundle.
+    target: ['es2017', 'chrome64', 'safari12'],
+  },
   plugins: [
     react(),
     VitePWA({
