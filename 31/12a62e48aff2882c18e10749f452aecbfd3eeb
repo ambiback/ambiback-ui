@@ -1,0 +1,25 @@
+README.de.md
+  s_ed4f085c6942da::t_1ceb0724e39f59 18
+README.md
+  s_ed4f085c6942da::t_48451b7bdd862a 18
+src/api/client.js
+  s_ed4f085c6942da::t_b7edf4661b8196 4-58,147-150,169-170,177
+src/pages/SystemPage.jsx
+  s_ed4f085c6942da::t_40f13370943b74 2,18,284-295
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "3112a62e48aff2882c18e10749f452aecbfd3eeb",
+  "prompts": {},
+  "sessions": {
+    "s_ed4f085c6942da": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "25338f00-8e49-4247-ba73-a2a50acc53dc",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "Andre Lorbach <1675286+alorbach@users.noreply.github.com>"
+    }
+  }
+}

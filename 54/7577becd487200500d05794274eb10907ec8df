@@ -1,0 +1,26 @@
+src/utils/discovery.js
+  s_92303bbd971bec::t_38c5c30ef81733 39-43
+vite.config.js
+  s_92303bbd971bec::t_365cd88cadd1af 8-13
+src/App.css
+  s_92303bbd971bec::t_7080411d70b622 1857-1862
+  s_92303bbd971bec::t_243b9a35c5c2f2 34-35,318-321,425-426,1236-1239,1256-1259,1392-1393,1418-1421,1429-1432,1507-1510,1735-1736,1747-1750,1847-1852,1872-1875,2065,2108-2109,2159,2163,2176-2193
+  s_92303bbd971bec::t_f30d09655512e7 27-33
+  s_92303bbd971bec::t_0ebe259de050ed 1893-1898,2160-2162,2164-2175
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "547577becd487200500d05794274eb10907ec8df",
+  "prompts": {},
+  "sessions": {
+    "s_92303bbd971bec": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "ab9793da-4187-4c75-9427-c97e0b522d59",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "Andre Lorbach <1675286+alorbach@users.noreply.github.com>"
+    }
+  }
+}
