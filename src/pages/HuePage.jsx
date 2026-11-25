@@ -32,6 +32,7 @@ export default function HuePage() {
   const [lightsLoading, setLightsLoading] = useState(false)
   const [lights, setLights] = useState([])
   const [lightSettings, setLightSettings] = useState({})
+  const [hueError, setHueError] = useState('')
 
   const isCustomPreset = preset === 999
   const controlsDisabled = !supportEnabled
@@ -42,6 +43,29 @@ export default function HuePage() {
   useEffect(() => {
     hueApiRef.current = jsHue()
   }, [])
+
+  // Firmware reports Hue streaming problems (e.g. no free entertainment area) as "hueerror" in the status
+  useEffect(() => {
+    if (!supportEnabled) {
+      setHueError('')
+      return undefined
+    }
+    let cancelled = false
+    const loadHueError = async () => {
+      try {
+        const status = await api.getStatus()
+        if (!cancelled) setHueError(typeof status?.hueerror === 'string' ? status.hueerror : '')
+      } catch {
+        // Status is optional here, keep the last known value
+      }
+    }
+    loadHueError()
+    const timer = setInterval(loadHueError, 10000)
+    return () => {
+      cancelled = true
+      clearInterval(timer)
+    }
+  }, [supportEnabled])
 
   useEffect(() => {
     if (!bridgeIp) {
@@ -297,6 +321,11 @@ export default function HuePage() {
     <div className="page">
       <h1>Hue Integration</h1>
       <p className="page-intro">Connect the bridge first, then scan devices and tune mappings only for the lights you actually use.</p>
+      {hueError && (
+        <div className="error" role="alert">
+          {hueError}
+        </div>
+      )}
       <nav className="section-jump-nav" aria-label="Hue sections">
         <a href="#hue-bridge" className="section-jump-link">Bridge</a>
         <a href="#hue-devices" className="section-jump-link">Devices</a>
