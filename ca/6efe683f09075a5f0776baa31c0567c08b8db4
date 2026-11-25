@@ -1,0 +1,21 @@
+src/components/StatusCard.jsx
+  s_db70cde4a08699::t_d4c38fc9d50564 42
+src/pages/HuePage.jsx
+  s_db70cde4a08699::t_f31e36f36860be 35,47-69,324-328
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "ca6efe683f09075a5f0776baa31c0567c08b8db4",
+  "prompts": {},
+  "sessions": {
+    "s_db70cde4a08699": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "e5b2865a-3a5d-4f53-a74a-415dd41cd896",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "Andre Lorbach <1675286+alorbach@users.noreply.github.com>"
+    }
+  }
+}
