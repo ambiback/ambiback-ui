@@ -39,6 +39,7 @@ export default function StatusCard() {
       { label: 'Cam FPS', value: status.camfps },
       { label: 'Hue', value: status.huestatus },
       { label: 'Hue FPS', value: status.huefps },
+      { label: 'Hue Error', value: status.hueerror || undefined },
       { label: 'DreamScreen', value: status.dreamscreenstatus },
       { label: 'DreamScreen FPS', value: status.dreamscreenfps },
     ].filter((item) => item.value !== undefined)
